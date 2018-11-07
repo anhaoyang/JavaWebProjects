@@ -1,0 +1,43 @@
+server:
+  port: 8888
+
+
+spring:
+    datasource:
+        name: test
+        url: jdbc:mysql://127.0.0.1:3306/test?useSSL=false
+        username: root
+        password: root
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+    redis:
+      host: localhost
+      database: 0
+      port: 6379
+      preClear: true                  #是否在启动时删除redis中所有的内容
+      livetimeDefault: 600            #键值 key在缓存中的存活时间（秒），默认：86500 (24小时)
+    cache:
+      type: EHCACHE
+      ehcache:                        
+#        config: config/ehcache.xml    #这里使用EhCacheCacheManagerFactory来装配ehcache
+        timeToIdleSeconds: 10          #设置一个元素所允许闲置的最大时间为?秒
+        
+
+
+## 该配置节点为独立的节点，有很多同学容易将这个配置放在spring的节点下，导致配置无法被识别
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.winter.model  # 注意：对应实体类的路径
